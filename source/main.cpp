@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     }
     char file_name[50] = "tests/";
     snprintf(file_name + strlen(file_name), 50, "%s", argv[1]);
-    printf("file_name = %s\n", file_name);
+    printf("\x1b[33mfile_with_tests = %s\x1b[0m\n", file_name);
     FILE *file_with_tests = fopen(file_name, "rb");
     if (file_with_tests == NULL)
     {
@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
 
         int misses_in_ideal_cache = simulate_optimal_cache(data_array, size_of_array, size_of_array / 2);
         std::cout << "\x1b[35mmisses in ideal_cache\x1b[0m = " << misses_in_ideal_cache << "\n";
+        std::cout << "\n\n\n";
     }
     return 0;
 }

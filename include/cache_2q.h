@@ -34,13 +34,13 @@ struct Cache_2q
     {
         std::cout << "Common size of buffer: " << size_of_cache << "\n";
 
-        size_of_buffer_in_ = size_of_cache / 3;
+        size_of_buffer_in_ = size_of_cache / 4;
         std::cout << "Buffer in size: " << size_of_buffer_in_ <<  "\n";
 
         size_of_buffer_lru_ = size_of_cache / 2;
         std::cout << "Buffer lru size: " << size_of_buffer_lru_ << "\n";
 
-        size_of_buffer_out_ = size_of_cache / 3;
+        size_of_buffer_out_ = size_of_cache / 4;
         std::cout << "Buffer out size: " << size_of_buffer_out_ << "\n";
     }
 
