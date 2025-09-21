@@ -1,0 +1,3 @@
+/home/zevs_gromovergec/Programming/Github/CPP_Cache/build/CMakeFiles/my_program.dir
+/home/zevs_gromovergec/Programming/Github/CPP_Cache/build/CMakeFiles/edit_cache.dir
+/home/zevs_gromovergec/Programming/Github/CPP_Cache/build/CMakeFiles/rebuild_cache.dir
