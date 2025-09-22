@@ -2,7 +2,7 @@ CMAKE = cmake
 BUILD_DIR = build
 EXEC_DIR = $(BUILD_DIR)/my_program
 
-test ?= test_1.txt
+file ?=
 
 .PHONY: all build clean run
 .SILENT:
@@ -17,4 +17,8 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 run: build
-	./$(EXEC_DIR) $(test)
+	@if [ -n "$(file)" ]; then \
+		./$(EXEC_DIR) $(file); \
+	else \
+		./$(EXEC_DIR); \
+	fi

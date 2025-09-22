@@ -22,7 +22,14 @@ The cache is divided into three parts:
 $ git clone https://github.com/ZEVS1206/CPP_Cache.git
 $ cd CPP_Cache
 $ make
+```
+If you want start programm with test from file, you need to write:
+```bash
 $ make run file=[name of your file for testing with an extension]
+```
+But if you want to start programm with test from console(stdin), you just need:
+```bash
+$ make run
 ```
 ## Important!:
 Your file for testing must be in the catalog **CPP_Cache/tests**
