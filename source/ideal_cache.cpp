@@ -9,16 +9,15 @@
 int simulate_optimal_cache(const std::vector <Page_t> data, size_t data_size, size_t cache_size) 
 {
     std::unordered_set<Page_t> cache;
-    int misses = 0;
+    int hits = 0;
 
     for (size_t index = 0; index < data_size; index++) {
         int page = data[index];
         if (cache.find(page) != cache.end()) {
-            // hit
+            hits++;
             continue;
         }
         // miss
-        misses++;
 
         if (cache.size() < cache_size) {
             cache.insert(page);
@@ -44,5 +43,5 @@ int simulate_optimal_cache(const std::vector <Page_t> data, size_t data_size, si
             cache.insert(page);
         }
     }
-    return misses;
+    return hits;
 }
