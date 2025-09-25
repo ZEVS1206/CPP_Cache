@@ -6,7 +6,7 @@
 
 #include "cache_2q.h"
 
-const int max_static_size = 100;
+const int max_static_size = 1000000;
 
 int slow_get_page(int key)
 {
@@ -38,56 +38,38 @@ int main(int argc, char *argv[])
     // {
     //     std::cout << "Amount: ";
     // }
-    char buffer_for_input[max_static_size] = "";
-    while (fgets(buffer_for_input, sizeof(buffer_for_input), file_with_tests))
+    size_t cache_size = 0;
+    size_t n = 0;
+
+    while (fscanf(file_with_tests, "%zu %zu", &cache_size, &n) == 2)
     {
-        size_t hits = 0;
-        std::vector <Page_t> data_array;
-        // if (file_with_tests == stdin)
-        // {
-        //     std::cout << "Test: ";
-        // }
-        int number = 0;
-        char *pointer = buffer_for_input;
-        while (sscanf(pointer, "%d", &number) == 1)
+        std::vector<Page_t> data_array(n);
+        for (size_t i = 0; i < n; i++)
         {
-            data_array.push_back(number);
-            while (*pointer && *pointer != ' ' && *pointer != '\t' && *pointer != '\n')
+            if (fscanf(file_with_tests, "%d", &data_array[i]) != 1)
             {
-                pointer++;
-            }
-            while (*pointer == ' ' || *pointer == '\t')
-            {
-                pointer++;
+                std::cerr << "ERROR: unexpected end of input\n";
+                return 1;
             }
         }
-        //std::cout << "Test: ";
-        // for (Page_t elem: data_array)
-        // {
-        //     std:: cout << elem << " ";
-        // }
-        // std::cout << "\n";
-        struct Cache_2q <Page_t, Page_t, decltype(&slow_get_page)> cache{data_array.size()};
-        for (size_t index = 0; index < data_array.size(); index++)
+
+        Cache_2q<Page_t, Page_t, decltype(&slow_get_page)> cache(cache_size);
+
+        size_t hits = 0;
+        for (size_t i = 0; i < data_array.size(); i++)
         {
-            ON_DEBUG(cache.print_buffer_in();)
-            ON_DEBUG(cache.print_buffer_lru();)
-            ON_DEBUG(cache.print_buffer_out();)
-            if (cache.cache_2q_lookup_update(data_array[index], slow_get_page))
+            if (cache.cache_2q_lookup_update(data_array[i], slow_get_page))
             {
                 hits++;
             }
         }
-        std::cout << hits << "\n\n";
-        //std::cout << "\x1b[34mmisses in cache_2Q\x1b[0m = " << misses << "\n";
 
-        //int hits_in_ideal_cache = simulate_optimal_cache(data_array, data_array.size(), data_array.size() / 2);
-        //std::cout << "\x1b[35mhits in ideal_cache\x1b[0m = " << hits_in_ideal_cache << "\n";
-        //std::cout << "\n\n\n";
-        // if (file_with_tests == stdin)
-        // {
-        //     std::cout << "Amount: ";
-        // }
+        std::cout << hits << "\n";
     }
+    if (file_with_tests != stdin)
+    {
+        fclose(file_with_tests);
+    }
+
     return 0;
 }

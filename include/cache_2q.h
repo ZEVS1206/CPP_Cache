@@ -21,7 +21,6 @@ struct Cache_2q
     std::list<std::pair<Key_t, Elem_t>> buffer_in_;
     std::list<std::pair<Key_t, Elem_t>> buffer_lru_;
     std::list<Key_t> buffer_out_;
-    bool first_add_;
 
     std::unordered_map<Key_t, typename std::list<std::pair<Key_t, Elem_t>>::iterator> hash_table_in_;
     std::unordered_map<Key_t, typename std::list<std::pair<Key_t, Elem_t>>::iterator> hash_table_lru_;
@@ -35,15 +34,29 @@ struct Cache_2q
     {
         ON_DEBUG(std::cout << "Common size of buffer: " << size_of_cache << "\n";)
 
-        size_of_buffer_in_ = size_of_cache / 2;
+        if (size_of_cache == 1)
+        {
+            size_of_buffer_in_ = size_of_cache;
+        }
+        else
+        {
+            size_of_buffer_in_ = size_of_cache / 2;
+        }
         ON_DEBUG(std::cout << "Buffer in size: " << size_of_buffer_in_ <<  "\n";)
 
         size_of_buffer_lru_ = size_of_cache;
         ON_DEBUG(std::cout << "Buffer lru size: " << size_of_buffer_lru_ << "\n";)
 
-        size_of_buffer_out_ = size_of_cache / 2;
+
+        if (size_of_cache == 1)
+        {
+            size_of_buffer_out_ = size_of_cache;
+        }
+        else
+        {
+            size_of_buffer_out_ = size_of_cache / 2;
+        }
         ON_DEBUG(std::cout << "Buffer out size: " << size_of_buffer_out_ << "\n";)
-        first_add_ = true;
     }
 
     bool cache_2q_lookup_update(Key_t key, Function_get_elem_t slow_get_page)
@@ -53,11 +66,6 @@ struct Cache_2q
         auto hit_in_buffer_in = hash_table_in_.find(key);
         if (hit_in_buffer_in != hash_table_in_.end())
         {
-            if (first_add_)
-            {
-                first_add_ = false;
-                return false;
-            }
             ON_DEBUG(std::cout << "Found in buffer_in\n";)
             return true;
         }
