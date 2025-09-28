@@ -23,13 +23,21 @@ $ git clone https://github.com/ZEVS1206/CPP_Cache.git
 $ cd CPP_Cache
 $ make
 ```
-If you want start programm with test from file, you need to write:
+Then, if you want to start **Cache_2Q** with test from file, you need to write:
 ```bash
-$ make run file=[name of your file for testing with an extension]
+$ make run_2q file=[name of your file for testing with an extension]
 ```
-But if you want to start programm with test from console(stdin), you just need:
+But if you want to start **Cache_2Q** with test from console(stdin), you just need:
 ```bash
-$ make run
+$ make run_2q
+```
+If you want to start **Ideal_cache** with test from file, you need to write:
+```bash
+$ make run_ideal file=[name of your file for testing with an extension]
+```
+But if you want to start **Ideal_cache** with test from console(stdin), you just need:
+```bash
+$ make run_ideal
 ```
 ## Important!:
 Your file for testing must be in the catalog **CPP_Cache/tests**

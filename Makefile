@@ -1,6 +1,7 @@
 CMAKE = cmake
 BUILD_DIR = build
-EXEC_DIR = $(BUILD_DIR)/my_program
+EXEC_DIR_2Q = build/cache_2q
+EXEC_DIR_IDEAL = build/ideal_cache
 
 file ?=
 
@@ -16,9 +17,16 @@ build:
 clean:
 	rm -rf $(BUILD_DIR)
 
-run: build
+run_2q: build
 	@if [ -n "$(file)" ]; then \
-		./$(EXEC_DIR) $(file); \
+		./$(EXEC_DIR_2Q) $(file); \
 	else \
-		./$(EXEC_DIR); \
+		./$(EXEC_DIR_2Q); \
+	fi
+
+run_ideal: build
+	@if [ -n "$(file)" ]; then \
+		./$(EXEC_DIR_IDEAL) $(file); \
+	else \
+		./$(EXEC_DIR_IDEAL); \
 	fi

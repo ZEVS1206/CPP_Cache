@@ -7,7 +7,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 
 file(GLOB SOURCES source/*.cpp)
+#Cache_2Q
+add_executable(cache_2q source/2q_main.cpp)
 
-add_executable(my_program ${SOURCES})
+target_include_directories(cache_2q PRIVATE include)
 
-target_include_directories(my_program PRIVATE include)
+#Ideal_cache
+add_executable(ideal_cache source/ideal_cache.cpp)
+
+target_include_directories(ideal_cache PRIVATE include)

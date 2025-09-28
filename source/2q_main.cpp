@@ -30,14 +30,9 @@ int main(int argc, char *argv[])
     }
     else
     {
-        //std::cout << "\x1b[32mReading tests from console...\x1b[0m\n";
         file_with_tests = stdin;
     }
 
-    // if (file_with_tests == stdin)
-    // {
-    //     std::cout << "Amount: ";
-    // }
     size_t cache_size = 0;
     size_t n = 0;
 
