@@ -48,7 +48,6 @@ int simulate_optimal_cache(const std::vector <Page_t> data, size_t data_size, si
             cache.erase(victim);
             cache.insert(page);
         }
-        std::cout << index << "\n";
     }
     return hits;
 }
