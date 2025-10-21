@@ -39,6 +39,12 @@ But if you want to start **Ideal_cache** with test from console(stdin), you just
 ```bash
 $ make run_ideal
 ```
+### How to diagnose programm with valgrind
+```bash
+$ make
+$ make callgrind file=[name of your file for testing with an extension]
+$ kcachegrind callgrind.out
+```
 ## Important!:
 Your file for testing must be in the catalog **CPP_Cache/tests**
 
