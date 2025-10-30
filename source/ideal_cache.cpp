@@ -1,83 +1,78 @@
 #include <iostream>
 #include <vector>
-#include <unordered_set>
 #include <unordered_map>
-#include <algorithm>
+#include <unordered_set>
+#include <queue>
 #include <cstring>
 
 #include "cache_2q.h"
 
-int simulate_optimal_cache(const std::vector<Page_t> data, size_t data_size, size_t cache_size)
+
+struct Future_use 
 {
+    int next;
+    Page_t page;
+    bool operator<(const Future_use& other) const 
+    {
+        return next < other.next;
+    }
+};
+
+int simulate_optimal_cache(const std::vector<Page_t>& data, size_t data_size, size_t cache_size)
+{
+    if (cache_size == 0) return 0;
+
+    std::vector<int> next_use(data_size, data_size + 1);
+    std::unordered_map<Page_t, int> last_seen;
+
+    for (int i = (int)data_size - 1; i >= 0; --i)
+    {
+        Page_t page = data[i];
+        if (last_seen.count(page))
+            next_use[i] = last_seen[page];
+        else
+            next_use[i] = data_size + 1;
+        last_seen[page] = i;
+    }
+
     std::unordered_set<Page_t> cache;
+    std::unordered_map<Page_t, int> current_next;
+    std::priority_queue<Future_use> pq;
     int hits = 0;
 
-    for (size_t index = 0; index < data_size; index++)
+    for (size_t index = 0; index < data_size; ++index)
     {
         Page_t page = data[index];
 
-        // hit
-        if (cache.find(page) != cache.end())
+        if (cache.count(page))
         {
             hits++;
-            continue;
         }
-
-        // miss
-        bool will_be_used_later = false;
-        for (size_t j = index + 1; j < data_size; j++)
+        else
         {
-            if (data[j] == page)
+            if (cache.size() >= cache_size)
             {
-                will_be_used_later = true;
-                break;
-            }
-        }
-
-        if (!will_be_used_later)
-        {
-            continue;
-        }
-
-        if (cache.size() < cache_size)
-        {
-            cache.insert(page);
-            continue;
-        }
-
-        Page_t victim = -1;
-        size_t farthest = 0;
-
-        for (Page_t c : cache)
-        {
-            size_t j = index + 1;
-            for (; j < data_size; j++)
-            {
-                if (data[j] == c)
+                while (!pq.empty())
                 {
-                    break;
+                    Page_t victim = pq.top().page;
+                    int next = pq.top().next;
+                    pq.pop();
+                    if (cache.count(victim) && current_next[victim] == next)
+                    {
+                        cache.erase(victim);
+                        current_next.erase(victim);
+                        break;
+                    }
                 }
             }
-
-            if (j == data_size)
-            {
-                victim = c;
-                break;
-            }
-
-            if (j > farthest)
-            {
-                farthest = j;
-                victim = c;
-            }
+            cache.insert(page);
         }
-
-        cache.erase(victim);
-        cache.insert(page);
+        current_next[page] = next_use[index];
+        pq.push({ next_use[index], page });
     }
+
     return hits;
 }
-
 
 
 int main(int argc, char *argv[])

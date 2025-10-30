@@ -233,6 +233,6 @@ struct Cache_2q
 
 typedef int Page_t;
 
-int simulate_optimal_cache(const std::vector<Page_t> data, size_t data_size, size_t cache_size);
+int simulate_optimal_cache(const std::vector<Page_t>& data, size_t data_size, size_t cache_size);
 
 #endif
